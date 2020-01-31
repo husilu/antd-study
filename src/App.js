@@ -7,7 +7,6 @@ import { Route, Switch, Redirect } from 'react-router-dom'
 import { Frame } from './components'
 
 const menus = adminRoutes.filter(route => route.isNav === true)
-
 class App extends Component {
   render() {
     return (
