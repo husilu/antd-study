@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 
-import { Card, Button, List, Avatar, Badge } from 'antd'
+import { Card, Button, List, Avatar, Badge, Spin } from 'antd'
+
+import { connect } from 'react-redux'
+
+import { markNotificationAsReadById, markAllNotificationAsReadById } from '../../actions/notifications'
 
 const data = [
   {
@@ -17,28 +21,37 @@ const data = [
   },
 ];
 
-export default class Notifications extends Component {
+const mapState = state => {
+  return {
+    list: state.notifications
+  }
+}
+@connect(mapState, { markNotificationAsReadById, markAllNotificationAsReadById })
+class Notifications extends Component {
   render() {
     return (
-      <Card
-        title='通知中心'
-        bordered={false}
-        extra={<Button>全部标记为已读</Button>}
-      >
-        <List
-          itemLayout="horizontal"
-          dataSource={data}
-          renderItem={item => (
-            <List.Item extra={<Button>标记为已读</Button>}>
-              <List.Item.Meta
-                avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                title={<Badge dot>{item.title}</Badge>}
-                description="Ant Design, a design language for background applications, is refined by Ant UED Team"
-              />
-            </List.Item>
-          )}
-        />
-      </Card>
+      <Spin spinning={this.props.list.isLoading}>
+        <Card
+          title='通知中心'
+          bordered={false}
+          extra={<Button onClick={this.props.markAllNotificationAsReadById.bind(this)} disabled={this.props.list.list.every(item => item.hasRead === true)}>全部标记为已读</Button>}
+        >
+          <List
+            itemLayout="horizontal"
+            dataSource={this.props.list.list}
+            renderItem={item => (
+              <List.Item extra={item.hasRead ? null : <Button onClick={this.props.markNotificationAsReadById.bind(this, item.id)}>标记为已读</Button>}>
+                <List.Item.Meta
+                  title={<Badge dot={!item.hasRead}>{item.title}</Badge>}
+                  description={item.desc}
+                />
+              </List.Item>
+            )}
+          />
+        </Card>
+      </Spin>
     )
   }
 }
+
+export default Notifications

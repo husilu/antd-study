@@ -175,6 +175,16 @@ class ArticleList extends Component {
     getArticles(this.state.offset, this.state.limited).then(res => {
       const columnKeys = Object.keys(res.list[0])
       const columns = this.createColumns(columnKeys)
+      // console.log(this)
+      if(this.updater.isMounted(this)) {
+        this.setState({
+          dataSource: res.list,
+          total: res.total,
+          columns
+        })
+      } else {
+        return 
+      }
       this.setState({
         dataSource: res.list,
         total: res.total,
@@ -183,6 +193,7 @@ class ArticleList extends Component {
     }).catch(err => {
 
     }).finally(() => {
+      if(!this.updater.isMounted(this)) return
       this.setState({
         isLoading: false
       })
@@ -216,6 +227,9 @@ class ArticleList extends Component {
   }
   componentDidMount() {
     this.getData()
+  }
+  componentWillUnmount () {
+    
   }
   render() {
     return (

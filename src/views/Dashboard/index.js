@@ -10,9 +10,8 @@ export default class Dashboard extends Component {
     super()
     this.chartRef = createRef()
     this.state = {
-      articleChart: null,
-      chartData: []
     }
+    this.articleChart = null
   }
   getData = () => {
     getarticleChart().then(res => {
@@ -45,10 +44,10 @@ export default class Dashboard extends Component {
       }]
     };
     // 使用刚指定的配置项和数据显示图表。
-    this.state.articleChart.setOption(option);
+    this.articleChart.setOption(option);
   }
   componentDidMount() {
-    this.state.articleChart = echarts.init(this.chartRef.current);
+    this.articleChart = echarts.init(this.chartRef.current);
     this.getData();
   }
   render() {

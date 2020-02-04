@@ -12,27 +12,31 @@ import { mainRoutes } from './routes'
 
 import zhCN from 'antd/es/locale/zh_CN';
 
+import { Provider } from 'react-redux'
+
+import store from './store'
+
 import {
   ConfigProvider
 } from 'antd'
 
 render(
-  <ConfigProvider locale={zhCN}>
-    <Router>
-      <Switch>
-        <Route path='/admin' render={(routerProps) => {
-          // TODO：后期这里要做权限认证 需要登录才能访问/admin
-          return <App {...routerProps} />
-        }} />
-        {
-          mainRoutes.map(route => {
-            return <Route component={route.component} path={route.pathname} key={route.pathname} />
-          })
-        }
-        <Redirect to='/admin' exact from='/' />
-        <Redirect to='/404' />
-      </Switch>
-    </Router>
-  </ConfigProvider>,
+  <Provider store={store}>
+    <ConfigProvider locale={zhCN}>
+      <Router>
+        <Switch>
+          <Route path='/admin' component={App} />
+          }} />
+          {
+            mainRoutes.map(route => {
+              return <Route component={route.component} path={route.pathname} key={route.pathname} />
+            })
+          }
+          <Redirect to='/admin' exact from='/' />
+          <Redirect to='/404' />
+        </Switch>
+      </Router>
+    </ConfigProvider>
+  </Provider>,
   document.querySelector('#root')
 )
