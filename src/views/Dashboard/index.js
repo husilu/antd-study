@@ -2,6 +2,7 @@ import React, { Component, createRef } from 'react'
 import './dashboard.less';
 import { Card, Row, Col } from 'antd'
 import echarts from 'echarts';
+import { HooksCom } from '../../components'
 
 import { getarticleChart } from '../../requests'
 const overViewColors = []
@@ -81,6 +82,8 @@ export default class Dashboard extends Component {
 
           </div>
         </Card>
+        <HooksCom tip={100}>
+        </HooksCom>
       </>
     )
   }
