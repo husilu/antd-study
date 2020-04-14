@@ -91,6 +91,7 @@ class ArticleList extends Component {
       deleteTile: ''
     }
   }
+
   createColumns = (columnKeys) => {
     const columns = columnKeys.map(item => {
       if (item === 'amount') {
@@ -227,9 +228,7 @@ class ArticleList extends Component {
   }
   componentDidMount() {
     this.getData()
-  }
-  componentWillUnmount () {
-    
+    console.log('componentDidMount')
   }
   render() {
     return (
