@@ -15,6 +15,7 @@ const finishMarkAsRead = () => {
 }
 
 export const markNotificationAsReadById = (id) => {
+  // 异步action 就是用来dispatch 同步action的
   return dispatch => {
     dispatch(startMarkAsRead())
     setTimeout(() => {

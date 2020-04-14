@@ -7,7 +7,8 @@ import {
   ArticleEdit,
   Notifications,
   NoAuth,
-  Profile
+  Profile,
+  Table
 } from '../views';
 
 export const mainRoutes = [
@@ -69,5 +70,12 @@ export const adminRoutes = [
     component: Profile,
     title: '个人设置',
     roles: ['001', '002', '003']
+  },
+  {
+    pathname: '/admin/table',
+    component: Table,
+    title: '表格',
+    roles: ['001', '002', '003'],
+    isNav: true
   }
 ]

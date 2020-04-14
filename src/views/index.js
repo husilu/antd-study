@@ -41,6 +41,11 @@ const Profile = Loadable({
   loading: Loading
 })
 
+const Table = Loadable({
+  loader: () => import('./Table/index.js'),
+  loading: Loading
+})
+
 export {
   Dashboard,
   ArticleList,
@@ -50,5 +55,6 @@ export {
   ArticleEdit,
   Notifications,
   NoAuth,
-  Profile
+  Profile,
+  Table
 }

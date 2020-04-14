@@ -2,17 +2,52 @@ import React, { Component, createRef } from 'react'
 import './dashboard.less';
 import { Card, Row, Col } from 'antd'
 import echarts from 'echarts';
+import { Tabs, Modal, Button } from 'antd';
+import style from './dashboard.less'
+import Box from '../../components/Box'
+
+import Hoook from '../../components/HookTest'
 
 import { getarticleChart } from '../../requests'
 const overViewColors = []
+const menuDataRender = data => {
+  let res = data.map((item => {
+    return item.name
+  }))
+  return res;
+}
 export default class Dashboard extends Component {
   constructor() {
     super()
     this.chartRef = createRef()
     this.state = {
+      visible: false,
+      content: ''
     }
     this.articleChart = null
   }
+  handleOk = e => {
+    console.log(e);
+    this.setState({
+      visible: false,
+    });
+  };
+
+  handleCancel = e => {
+    console.log(e);
+    this.setState({
+      visible: false,
+    });
+  };
+  showModal = (arg) => {
+    this.setState({
+      visible: true,
+    }, () => {
+      this.setState({
+        content: arg
+      })
+    });
+  };
   getData = () => {
     getarticleChart().then(res => {
       const amountArr = res.amount.map(item => {
@@ -24,7 +59,7 @@ export default class Dashboard extends Component {
       this.setState({
         amountArr: amountArr,
         dateArr: dateArr
-      },this.initArticleChart)
+      }, this.initArticleChart)
     })
   }
   initArticleChart = () => {
@@ -52,6 +87,7 @@ export default class Dashboard extends Component {
   }
   render() {
     // console.log('dashboard render')
+    const tabs = [{ title: 'tab1' }, { title: 'tab2' }, { title: 'tab3' }]
     return (
       <>
         <Card
@@ -78,9 +114,24 @@ export default class Dashboard extends Component {
           bordered={false}
         >
           <div ref={this.chartRef} style={{ width: '500px', height: '300px' }}>
-
           </div>
+          <Button type="primary" onClick={this.showModal.bind(this, 'argstring')}>
+            Open Modal
+          </Button>
         </Card>
+        <p className={style.red}>
+          红色的p
+        </p>
+        <Box>
+        </Box>
+        <Modal
+          title="Basic Modal"
+          visible={this.state.visible}
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+        >
+          <p>{this.state.content}</p>
+        </Modal>
       </>
     )
   }
